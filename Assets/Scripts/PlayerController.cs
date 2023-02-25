@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
         //Vector2 dir = new Vector2(x, y);
         Walk(x);
 
-        if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f, LayerMask.GetMask("Floor"))) {
+        if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f, (LayerMask.GetMask("Floor") + LayerMask.GetMask("Default")))) {
             canJump = true;
         }
         if (Input.GetButtonDown("Jump") && canJump) {
