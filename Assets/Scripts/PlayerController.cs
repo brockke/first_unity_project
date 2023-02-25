@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public Transform crosshair;
     Rigidbody2D rb;
     float speed = 10;
     float jumpHeight = 7;
@@ -42,6 +43,13 @@ public class PlayerController : MonoBehaviour
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump")) {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
+
+        Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        var hit = Physics2D.Raycast(transform.position, raycastDir, 10, 65, 0);
+        if (hit) {
+            Debug.Log(hit.point);
+            crosshair.position = hit.point;
+        }
     }
     private void Walk(float xDir) {
         rb.velocity = new Vector2(xDir * speed, rb.velocity.y);
@@ -49,5 +57,11 @@ public class PlayerController : MonoBehaviour
     private void Jump() {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += Vector2.up * jumpHeight;
+    }
+    void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+
+        Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        Gizmos.DrawRay(transform.position, raycastDir);
     }
 }
