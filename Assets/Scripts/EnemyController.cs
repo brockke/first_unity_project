@@ -56,4 +56,10 @@ public class EnemyController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += Vector2.up * jumpHeight;
     }
+    void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+
+        Vector2 raycastDir = lastPlayerSeenPos - transform.position;
+        Gizmos.DrawRay(transform.position, raycastDir);
+    }
 }
