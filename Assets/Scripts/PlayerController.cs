@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
         rb.velocity += Vector2.up * jumpHeight;
     }
     void OnDrawGizmos() {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.cyan;
 
         Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         Gizmos.DrawRay(transform.position, raycastDir);

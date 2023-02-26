@@ -11,12 +11,12 @@ public class EnemyController : MonoBehaviour
 
     Rigidbody2D rb;
     float jumpHeight = 7;
-    float fallMultiplier = 3f;
-    float lowJumpMultiplier = 8f;
+    //float fallMultiplier = 3f;
+    //float lowJumpMultiplier = 8f;
     public bool canJump = true;
     public Vector3 lastPlayerSeenPos;
 
-    private float nextActionTime = 5f;
+    //private float nextActionTime = 5f;
     public float period = 5f;
 
     // Start is called before the first frame update
