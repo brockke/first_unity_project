@@ -294,7 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1624b0b294f464a3a9658f1fa921846f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshair: {fileID: 1430549382}
+  crosshair: {fileID: 1430549380}
+  bulletPrefab: {fileID: 317889978513362306, guid: 9f61da7d0faf14d55be469b75ec9c9e6, type: 3}
 --- !u!1 &161602324
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +420,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   player: {fileID: 115159193}
-  seePlayer: 0
   speed: 1
   canJump: 1
   lastPlayerSeenPos: {x: 0, y: 0, z: 0}
@@ -736,7 +736,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   player: {fileID: 115159193}
-  seePlayer: 0
   speed: 1
   canJump: 1
   lastPlayerSeenPos: {x: 0, y: 0, z: 0}

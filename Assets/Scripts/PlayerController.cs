@@ -3,31 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
-{
-    public Transform crosshair;
+public class PlayerController : MonoBehaviour {
+    public GameObject crosshair;
     Rigidbody2D rb;
     float speed = 10;
     float jumpHeight = 7;
     float fallMultiplier = 3f;
     float lowJumpMultiplier = 8f;
     bool canJump = true;
+    public GameObject bulletPrefab;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody2D>();        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         float x = Input.GetAxis("Horizontal");
         //float y = Input.GetAxis("Vertical");
         //Vector2 dir = new Vector2(x, y);
         Walk(x);
 
-        if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f, (LayerMask.GetMask("Floor") + LayerMask.GetMask("Default")))) {
+        if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f,
+            (LayerMask.GetMask("Floor") + LayerMask.GetMask("Default") + LayerMask.GetMask("Bullet")))) {
             canJump = true;
         }
         if (Input.GetButtonDown("Jump") && canJump) {
@@ -45,10 +43,23 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        //Debug.Log(raycastDir);
         var hit = Physics2D.Raycast(transform.position, raycastDir, 10, 65, 0);
         if (hit) {
-            Debug.Log(hit.point);
-            crosshair.position = hit.point;
+            crosshair.GetComponent<Renderer>().enabled = true;
+            crosshair.transform.position = hit.point;
+        }
+        else {
+            crosshair.GetComponent<Renderer>().enabled = false;
+        }
+
+        if (Input.GetButtonDown("Fire1")) {
+            Vector3 dirNorm = raycastDir.normalized;
+            var test = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
+            test.layer = 9;
+            var rb = test.GetComponent<Rigidbody2D>();
+            //Debug.Log(rb.position);
+            rb.velocity = dirNorm * 20f;
         }
     }
     private void Walk(float xDir) {
