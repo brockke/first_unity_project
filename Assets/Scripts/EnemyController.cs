@@ -26,12 +26,9 @@ public class EnemyController : MonoBehaviour
     }
 
     void Update() {
-        //inRange = (Vector2.Distance(player.position, transform.position) <= range
-        if (seePlayer(player)) {
-            lastPlayerSeenPos = player.position;
-        }
-        if (lastPlayerSeenPos != Vector3.zero) {
-            Walk(((lastPlayerSeenPos.x - transform.position.x) >= 0) ? 1 : -1);
+        if (seePlayer(player, out var pos)) {
+            lastPlayerSeenPos = pos;
+            Walk(((pos.x - transform.position.x) >= 0) ? 1 : -1);
         }
         //if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f, LayerMask.GetMask("Floor"))) {
         //    canJump = true;
@@ -42,12 +39,14 @@ public class EnemyController : MonoBehaviour
         //    Jump();
         //}
     }
-    bool seePlayer(Transform player) {
+    bool seePlayer(Transform player, out Vector3 pos) {
         Vector2 raycastDir = player.position - transform.position;
         var floorHit = Physics2D.Raycast(transform.position, raycastDir, range, 64, 0);
         var playerHit = Physics2D.Raycast(transform.position, raycastDir, range, 256, 0);
         // Not hitting a wall but hitting a player
-        return (floorHit.distance == 0 && playerHit.distance != 0);
+
+        pos = player.position;
+        return(floorHit.distance == 0 && playerHit.distance != 0);
     }
     private void Walk(float xDir) {
         rb.velocity = new Vector2(xDir * speed, rb.velocity.y);
