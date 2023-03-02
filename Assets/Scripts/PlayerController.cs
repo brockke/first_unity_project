@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        Vector3 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         //Debug.Log(raycastDir);
         var hit = Physics2D.Raycast(transform.position, raycastDir, 10, 65, 0);
         if (hit) {
@@ -55,10 +55,9 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire1")) {
             Vector3 dirNorm = raycastDir.normalized;
-            var test = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
-            test.layer = 9;
-            var rb = test.GetComponent<Rigidbody2D>();
-            //Debug.Log(rb.position);
+            var bullet = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
+            bullet.layer = 9;
+            var rb = bullet.GetComponent<Rigidbody2D>();
             rb.velocity = dirNorm * 20f;
         }
     }

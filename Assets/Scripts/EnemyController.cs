@@ -14,12 +14,13 @@ public class EnemyController : MonoBehaviour
     //float fallMultiplier = 3f;
     //float lowJumpMultiplier = 8f;
     public bool canJump = true;
-    public Vector3 lastPlayerSeenPos;
+    public Vector3 lastPlayerSeenPos = Vector3.negativeInfinity;
     public bool playerSeen = false;
 
-    //private float nextActionTime = 5f;
+    private float nextActionTime = 5f;
     public float period = 5f;
-
+    public GameObject bulletPrefab;
+    public float projectileVelocity = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,15 +32,24 @@ public class EnemyController : MonoBehaviour
             lastPlayerSeenPos = player.position;
             playerSeen = true;
         }
+        if (seePlayer(player) && Time.time > nextActionTime) {
+            nextActionTime = Time.time + period;
+
+            Vector3 dirNorm = (lastPlayerSeenPos - transform.position).normalized;
+            var bullet = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
+            bullet.layer = 9;
+            var rb = bullet.GetComponent<Rigidbody2D>();
+            rb.velocity = dirNorm * projectileVelocity;
+        }
         if (playerSeen) {
             Walk(((lastPlayerSeenPos.x - transform.position.x) >= 0) ? 1 : -1);
         }
+
         //if (Physics2D.Raycast(transform.position, Vector2.down, 0.55f, LayerMask.GetMask("Floor"))) {
         //    canJump = true;
         //}
         //if ((Time.time > nextActionTime) && canJump) {
         //    canJump = false;
-        //    nextActionTime = Time.time + period;
         //    Jump();
         //}
     }
