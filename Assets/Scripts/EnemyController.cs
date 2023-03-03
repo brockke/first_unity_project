@@ -36,10 +36,8 @@ public class EnemyController : MonoBehaviour
             nextActionTime = Time.time + period;
 
             Vector3 dirNorm = (lastPlayerSeenPos - transform.position).normalized;
-            var bullet = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
-            bullet.layer = 9;
-            var rb = bullet.GetComponent<Rigidbody2D>();
-            rb.velocity = dirNorm * projectileVelocity;
+            float angle = Mathf.Atan2(dirNorm.y, dirNorm.x) * Mathf.Rad2Deg;
+            var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
         }
         if (playerSeen) {
             Walk(((lastPlayerSeenPos.x - transform.position.x) >= 0) ? 1 : -1);
@@ -73,5 +71,10 @@ public class EnemyController : MonoBehaviour
 
         Vector2 raycastDir = lastPlayerSeenPos - transform.position;
         Gizmos.DrawRay(transform.position, raycastDir);
+    }
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.tag == "Bullet") {
+            Debug.Log(collider);
+        }
     }
 }

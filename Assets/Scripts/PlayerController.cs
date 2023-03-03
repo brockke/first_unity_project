@@ -55,10 +55,8 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire1")) {
             Vector3 dirNorm = raycastDir.normalized;
-            var bullet = Instantiate(bulletPrefab, (transform.position + dirNorm), transform.rotation);
-            bullet.layer = 9;
-            var rb = bullet.GetComponent<Rigidbody2D>();
-            rb.velocity = dirNorm * 20f;
+            float angle = Mathf.Atan2(dirNorm.y, dirNorm.x) * Mathf.Rad2Deg;
+            var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
         }
     }
     private void Walk(float xDir) {
