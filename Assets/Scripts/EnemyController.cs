@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class EnemyController : MonoBehaviour
 {
     [Min(0)] public float range = 10;
     public Transform player;
     public float speed = 1;
 
-
-    Rigidbody2D rb;
-    float jumpHeight = 7;
+    [SerializeField] private Rigidbody2D rb;
+    public float jumpHeight = 7;
     //float fallMultiplier = 3f;
     //float lowJumpMultiplier = 8f;
-    public bool canJump = true;
+    private bool canJump = true;
     public Vector3 lastPlayerSeenPos = Vector3.negativeInfinity;
     public bool playerSeen = false;
 

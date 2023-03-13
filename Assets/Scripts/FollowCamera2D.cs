@@ -11,6 +11,7 @@ namespace CustomCamera {
         Both = 3
     }
 
+    [DisallowMultipleComponent]
     public class FollowCamera2D : MonoBehaviour {
         public Transform target;
         public float dampTime = 0.15f;

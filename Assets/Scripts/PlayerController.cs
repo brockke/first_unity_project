@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour {
-    public GameObject crosshair;
-    Rigidbody2D rb;
-    float speed = 10;
-    float jumpHeight = 7;
-    float fallMultiplier = 3f;
-    float lowJumpMultiplier = 8f;
-    bool canJump = true;
-    public GameObject bulletPrefab;
+    public float speed = 10;
+    public float jumpHeight = 7;
+    [SerializeField] private GameObject crosshair;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float fallMultiplier = 3f;
+    [SerializeField] private float lowJumpMultiplier = 8f;
+    [SerializeField] private GameObject bulletPrefab;
+    private bool canJump = true;
 
     // Start is called before the first frame update
     void Start() {
