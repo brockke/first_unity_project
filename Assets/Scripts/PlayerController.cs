@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour {
             Vector3 dirNorm = raycastDir.normalized;
             float angle = Mathf.Atan2(dirNorm.y, dirNorm.x) * Mathf.Rad2Deg;
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
+            bullet.GetComponent<Bullet>().SpawnedBy = gameObject;
         }
     }
     private void Walk(float xDir) {
@@ -72,5 +73,11 @@ public class PlayerController : MonoBehaviour {
 
         Vector2 raycastDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         Gizmos.DrawRay(transform.position, raycastDir);
+    }
+    void OnTriggerEnter2D(Collider2D collider) {
+        var bullet = collider.gameObject.GetComponent<Bullet>();
+        if (collider.tag == "Bullet" && bullet.SpawnedBy != gameObject) {
+            Debug.Log(collider);
+        }
     }
 }
